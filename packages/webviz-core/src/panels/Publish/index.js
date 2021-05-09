@@ -108,7 +108,7 @@ class Publish extends React.PureComponent<Props, PanelState> {
   static defaultConfig = {
     topicName: "",
     datatype: "",
-    buttonText: "Publish",
+    buttonText: "Move", // Here
     buttonTooltip: "",
     buttonColor: "#00A871",
     advancedView: true,
@@ -177,13 +177,46 @@ class Publish extends React.PureComponent<Props, PanelState> {
     const { topicName } = this.props.config;
     const { parsedObject } = this.state;
     if (topicName && parsedObject && this._publisher.current) {
+      console.log("And the type of parsedObject is:",(JSON.stringify(typeof(parsedObject))))
       this._publisher.current.publish(parsedObject);
     } else {
       throw new Error(`called _publish() when input was invalid`);
     }
   };
+///////////////////////////////////////////////////////////////////////////////////////
+moveUp = () => {
+  const { topicName } = this.props.config;
+  const { parsedObject } = this.state;
+  if (topicName && parsedObject && this._publisher.current) {
+    parsedObject.linear.x=1;
+    this._publisher.current.publish(parsedObject);
+  } else {
+    throw new Error(`called _publish() when input was invalid`);
+  }
+};
+moveLeft = () => {
+  const { topicName } = this.props.config;
+  const { parsedObject } = this.state;
+  if (topicName && parsedObject && this._publisher.current) {
+    parsedObject.angular.z=1;
+    this._publisher.current.publish(parsedObject);
+  } else {
+    throw new Error(`called _publish() when input was invalid`);
+  }
+};
+moveRight = () => {
+  const { topicName } = this.props.config;
+  const { parsedObject } = this.state;
+  if (topicName && parsedObject && this._publisher.current) {
+    parsedObject.angular.z=-1;
+    this._publisher.current.publish(parsedObject);
+  } else {
+    throw new Error(`called _publish() when input was invalid`);
+  }
+};
+///////////////////////////////////////////////////////////////////////////////////////
 
-  _onChange = (event: SyntheticInputEvent<HTMLTextAreaElement>) => {
+_onChange = (event: SyntheticInputEvent<HTMLTextAreaElement>) => {
     this.props.saveConfig({ value: event.target.value });
   };
 
@@ -287,11 +320,27 @@ class Publish extends React.PureComponent<Props, PanelState> {
         <Flex row style={buttonRowStyle}>
           {error && <SErrorText>{error}</SErrorText>}
           <Button
-            style={canPublish ? { backgroundColor: buttonColor } : {}}
+            style={canPublish ? { backgroundColor: buttonColor} : {}}
             tooltip={canPublish ? buttonTooltip : "Connect to ROS to publish data"}
             disabled={!canPublish || !parsedObject}
             primary={canPublish && !!parsedObject}
-            onClick={this._publish}>
+            onClick={this.moveLeft}>
+            {buttonText}
+          </Button>
+          <Button
+            style={canPublish ? { backgroundColor: buttonColor} : {}}
+            tooltip={canPublish ? buttonTooltip : "Connect to ROS to publish data"}
+            disabled={!canPublish || !parsedObject}
+            primary={canPublish && !!parsedObject}
+            onClick={this.moveUp}>
+            {buttonText}
+          </Button>
+          <Button
+            style={canPublish ? { backgroundColor: buttonColor} : {}}
+            tooltip={canPublish ? buttonTooltip : "Connect to ROS to publish data"}
+            disabled={!canPublish || !parsedObject}
+            primary={canPublish && !!parsedObject}
+            onClick={this.moveRight}>
             {buttonText}
           </Button>
         </Flex>
@@ -299,5 +348,10 @@ class Publish extends React.PureComponent<Props, PanelState> {
     );
   }
 }
+
+
+
+
+
 
 export default hot(Panel<Config>(Publish));

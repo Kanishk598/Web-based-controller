@@ -217,6 +217,9 @@ module.exports = {
     hot: true,
     open: true,
   },
+  watchOptions: {
+    ignored: /node_modules/,
+  },
 };
 
 if (WEBVIZ_DEV) {
