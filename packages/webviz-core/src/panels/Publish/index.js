@@ -189,6 +189,11 @@ moveUp = () => {
   const { parsedObject } = this.state;
   if (topicName && parsedObject && this._publisher.current) {
     parsedObject.linear.x=1;
+    parsedObject.linear.y=0;
+    parsedObject.linear.z=0;
+    parsedObject.angular.x=0;
+    parsedObject.angular.y=0;
+    parsedObject.angular.z=0;
     this._publisher.current.publish(parsedObject);
   } else {
     throw new Error(`called _publish() when input was invalid`);
@@ -198,6 +203,11 @@ moveLeft = () => {
   const { topicName } = this.props.config;
   const { parsedObject } = this.state;
   if (topicName && parsedObject && this._publisher.current) {
+    parsedObject.linear.x=0;
+    parsedObject.linear.y=0;
+    parsedObject.linear.z=0;
+    parsedObject.angular.x=0;
+    parsedObject.angular.y=0;
     parsedObject.angular.z=1;
     this._publisher.current.publish(parsedObject);
   } else {
@@ -208,12 +218,33 @@ moveRight = () => {
   const { topicName } = this.props.config;
   const { parsedObject } = this.state;
   if (topicName && parsedObject && this._publisher.current) {
-    parsedObject.angular.z=-1;
+    parsedObject.linear.x=0;
+    parsedObject.linear.y=0;
+    parsedObject.linear.z=0;
+    parsedObject.angular.x=0;
+    parsedObject.angular.y=0;
+    parsedObject.angular.z=-1;    
     this._publisher.current.publish(parsedObject);
   } else {
     throw new Error(`called _publish() when input was invalid`);
   }
 };
+stop = () => {
+  const { topicName } = this.props.config;
+  const { parsedObject } = this.state;
+  if (topicName && parsedObject && this._publisher.current) {
+    parsedObject.linear.x=0;
+    parsedObject.linear.y=0;
+    parsedObject.linear.z=0;
+    parsedObject.angular.x=0;
+    parsedObject.angular.y=0;
+    parsedObject.angular.z=0;    
+    this._publisher.current.publish(parsedObject);
+  } else {
+    throw new Error(`called _publish() when input was invalid`);
+  }
+};
+
 ///////////////////////////////////////////////////////////////////////////////////////
 
 _onChange = (event: SyntheticInputEvent<HTMLTextAreaElement>) => {
@@ -341,6 +372,14 @@ _onChange = (event: SyntheticInputEvent<HTMLTextAreaElement>) => {
             disabled={!canPublish || !parsedObject}
             primary={canPublish && !!parsedObject}
             onClick={this.moveRight}>
+            {buttonText}
+          </Button>
+          <Button
+            style={canPublish ? { backgroundColor: buttonColor} : {}}
+            tooltip={canPublish ? buttonTooltip : "Connect to ROS to publish data"}
+            disabled={!canPublish || !parsedObject}
+            primary={canPublish && !!parsedObject}
+            onClick={this.stop}>
             {buttonText}
           </Button>
         </Flex>
