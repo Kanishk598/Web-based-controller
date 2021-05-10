@@ -1,3 +1,10 @@
+I made a web-based controller for a custom robot, specifically ARDrone. I can move the drone using the three buttons, forward, turn left & turn right, although more buttons can be added for takeoff, landing & stopping too. Tweaked the code for the PUBLISH panel to make controller buttons and publish velocity commands from them, to the ARDrone.
+See the below image:
+
+![image](https://user-images.githubusercontent.com/52484751/117585499-5bb3f900-b130-11eb-86b7-bbac8a78b4b0.png)
+
+Below is the original project's unedited README.
+
 # [Webviz](https://webviz.io/) [![CircleCI](https://circleci.com/gh/cruise-automation/webviz.svg?style=svg)](https://circleci.com/gh/cruise-automation/webviz)
 
 ![webviz-os-demo](https://user-images.githubusercontent.com/177461/88328232-fa27b880-ccdc-11ea-9167-0d9339254729.gif)
